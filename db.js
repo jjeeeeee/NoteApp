@@ -57,18 +57,6 @@ export const dbApi = createApi({
       },
       invalidatesTags: ['Notes'],
     }),
-    deleteAllnotes: build.mutation({
-      async queryFn(note) {
-        const serializedNotes = await AsyncStorage.getItem('notes');
-        const notes = JSON.parse(serializedNotes) || [];
-        // Deletes all notes
-        for (let i = notes.length - 1; i >= 0; i--) { 
-          notes.splice(i, 1);
-        }
-        await AsyncStorage.setItem('notes', JSON.stringify(notes));
-      },
-      invalidatesTags: ['Notes'],
-    }),
     updateNote: build.mutation({
       async queryFn(note) {
         const serializedNotes = await AsyncStorage.getItem('notes');
@@ -84,7 +72,14 @@ export const dbApi = createApi({
       },
       invalidatesTags: ['Notes'],
     }),
+    clearNotes: build.mutation({
+      async queryFn() {
+        await AsyncStorage.setItem('notes', null); // Clearing the notes
+        return { data: [] }
+      },
+      invalidatesTags: ['Notes'],
+    })
   }),
 })
 
-export const { useFetchNotesQuery, useSearchNotesQuery, useAddNoteMutation, useUpdateNoteMutation, useDeleteNoteMutation, useDeleteAllnotesMutation } = dbApi
+export const { useFetchNotesQuery, useSearchNotesQuery, useAddNoteMutation, useUpdateNoteMutation, useDeleteNoteMutation, useClearNotesMutation } = dbApi

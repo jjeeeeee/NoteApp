@@ -8,18 +8,18 @@ import { store } from './store';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useSearchNotesQuery, useAddNoteMutation, 
       useDeleteNoteMutation, useUpdateNoteMutation, 
-      useDeleteAllnotesMutation } from './db';
+      useClearNotesMutation } from './db';
 
 
 function HomeScreen({ navigation }) {
   const { data: searchData } = useSearchNotesQuery("");
   const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const [deleteAllNotes] = useDeleteAllnotesMutation();
+  const [clearNotes] = useClearNotesMutation();
 
-  const deleteAllNotesWarning = () => {
-    // Deleting all notes in the app
-    deleteAllNotes();
+  const clearNotesWarning = () => {
+    // Clearing all notes in the app
+    clearNotes();
     window.location.reload();
   };
 
@@ -39,7 +39,7 @@ function HomeScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={deleteAllNotesWarning}
+          onPress={clearNotesWarning}
           style={tw`pr-4`}
         >
           <Text style={tw`text-red-500 text-base font-bold`}>Delete All Notes</Text>
