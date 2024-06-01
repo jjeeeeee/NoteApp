@@ -43,6 +43,7 @@ function HomeScreen({ navigation }) {
       <TextInput // Defining search bar
         style={tw`bg-gray-800 p-2 m-4 rounded w-[99%] text-white`}
         placeholder="Search"
+        placeholderTextColor="white"
         onChangeText={setQuery}
       />
 
@@ -117,12 +118,14 @@ function AddNoteScreen({ navigation }) {
       <TextInput // Title input box
         style={tw`p-2 mb-4 rounded text-white bg-gray-800`}
         placeholder="Title"
+        placeholderTextColor="white"
         value={title}
         onChangeText={setTitle}
       />
       <TextInput // Note content input box
         style={tw`p-2 mb-4 flex-1 rounded text-white bg-gray-800`}
         placeholder="Note"
+        placeholderTextColor="white"
         value={content}
         onChangeText={setContent}
         multiline
@@ -170,12 +173,14 @@ function EditScreen({ route, navigation }) {
       <TextInput // Title input box
         style={tw`p-2 mb-4 rounded text-white bg-gray-800`}
         placeholder="Title"
+        placeholderTextColor="white"
         value={title}
         onChangeText={setTitle}
       />
       <TextInput // Note content input box
         style={tw`p-2 mb-4 flex-1 rounded text-white bg-gray-800`}
         placeholder="New Note"
+        placeholderTextColor="white"
         value={content}
         onChangeText={setContent}
         multiline
