@@ -92,10 +92,25 @@ function AddNoteScreen({ navigation }) {
     let noteTitle = title.trim() === '' ? 'Untitled' : title;
 
     addNote({
-      title: noteTitle,
+      title: noteTitle, // Updating note title instantly
       content,
     });
   };
+
+  useEffect(() => {
+    const beforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+
+      // Save note and then navigate back to home screen
+      handleAddNote();
+
+      // Allow navigation after saving
+      navigation.dispatch(e.data.action);
+    });
+
+    return beforeRemoveListener;
+  }, [navigation, title, content]); // Dependencies
 
   return (
     <View style={tw`flex-1 p-4 bg-slate-950`}>
@@ -112,11 +127,6 @@ function AddNoteScreen({ navigation }) {
         onChangeText={setContent}
         multiline
       />
-      <TouchableOpacity 
-        // Saves note to the database when pressed by calling handleAddNote()
-        onPress={handleAddNote} style={tw`bg-blue-500 p-4 rounded-full`}>
-        <Text style={tw`text-white text-center`}>Add Note</Text>
-      </TouchableOpacity>
     </View>
   );
 }
