@@ -34,9 +34,9 @@ function HomeScreen({ navigation }) {
     }
   }, [searchData, query]);  // Dependencies
 
+  // Adding button to header to delete all notes
   useLayoutEffect(() => {
     navigation.setOptions({
-      // Adding fire emoji to remove all notes
       headerRight: () => (
         <TouchableOpacity
           onPress={deleteAllNotesWarning}
