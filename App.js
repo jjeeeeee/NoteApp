@@ -89,8 +89,10 @@ function AddNoteScreen({ navigation }) {
 
   // Adding note to database
   const handleAddNote = () => {
+    let noteTitle = title.trim() === '' ? 'Untitled' : title;
+
     addNote({
-      title,
+      title: noteTitle,
       content,
     });
   };
