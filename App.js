@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
-import { TouchableOpacity, View, Text, TextInput } from 'react-native';
+import { TouchableOpacity, View, Text, TextInput, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import tw from 'twrnc';
@@ -7,13 +7,21 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useSearchNotesQuery, useAddNoteMutation, 
-      useDeleteNoteMutation, useUpdateNoteMutation } from './db';
+      useDeleteNoteMutation, useUpdateNoteMutation, 
+      useDeleteAllnotesMutation } from './db';
 
 
 function HomeScreen({ navigation }) {
   const { data: searchData } = useSearchNotesQuery("");
   const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [deleteAllNotes] = useDeleteAllnotesMutation();
+
+  const deleteAllNotesWarning = () => {
+    // Deleting all notes in the app
+    deleteAllNotes();
+    window.location.reload();
+  };
 
   // Displaying notes if their title or content includes query string
   useEffect(() => {
@@ -26,12 +34,26 @@ function HomeScreen({ navigation }) {
     }
   }, [searchData, query]);  // Dependencies
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      // Adding fire emoji to remove all notes
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={deleteAllNotesWarning}
+          style={tw`pr-4`}
+        >
+          <Text style={tw`text-red-500 text-base font-bold`}>Delete All Notes</Text>
+        </TouchableOpacity>
+      )
+    });
+  }, [navigation]); // Dependencies
+
   // Displaying created notes
   const renderItem = ({ item }) => (
     <TouchableOpacity
       // Allows user to edit note when clicking on it
       onPress={() => navigation.navigate("Edit", { data: item })}
-      style={tw`w-[98%] mb-0.5 mx-auto bg-gray-800 rounded-md px-1`}
+      style={tw`w-[98%] mb-0.5 mx-auto bg-gray-800 rounded-base px-1`}
     >
       <Text style={tw`text-lg text-white`}>{item.title}</Text>
       <Text style={tw`text-white`}>{item.content}</Text>
