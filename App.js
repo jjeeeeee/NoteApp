@@ -76,6 +76,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
+
 function AddNoteScreen({ navigation }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -90,6 +91,7 @@ function AddNoteScreen({ navigation }) {
 
   // Adding note to database
   const handleAddNote = () => {
+    // Making note title Untitled if no title is inputted
     let noteTitle = title.trim() === '' ? 'Untitled' : title;
 
     addNote({
@@ -98,6 +100,7 @@ function AddNoteScreen({ navigation }) {
     });
   };
 
+  // Making it so that when the back button is pressed the note is saved
   useEffect(() => {
     const beforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
@@ -133,6 +136,7 @@ function AddNoteScreen({ navigation }) {
     </View>
   );
 }
+
 
 function EditScreen({ route, navigation }) {
   const { data } = route.params;
@@ -189,8 +193,10 @@ function EditScreen({ route, navigation }) {
   );
 }
 
+
 // Creating navigation stack
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
