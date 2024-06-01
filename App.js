@@ -53,7 +53,7 @@ function HomeScreen({ navigation }) {
     <TouchableOpacity
       // Allows user to edit note when clicking on it
       onPress={() => navigation.navigate("Edit", { data: item })}
-      style={tw`w-[98%] mb-0.5 mx-auto bg-gray-800 rounded-base px-1`}
+      style={tw`w-[98%] mb-0.5 mx-auto bg-gray-800 rounded-lg px-1`}
     >
       <Text style={tw`text-lg text-white`}>{item.title}</Text>
       <Text style={tw`text-white`}>{item.content}</Text>
