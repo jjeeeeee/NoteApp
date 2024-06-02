@@ -43,7 +43,7 @@ function HomeScreen({ navigation }) {
           onPress={clearAllNotes}
           style={tw`pr-4`}
         >
-          <Text style={tw`text-red-500 text-base font-bold`}>Delete All Notes</Text>
+          <Text style={tw`text-white bg-red-500 p-1 rounded-xl text-base font-bold`}>Delete All Notes</Text>
         </TouchableOpacity>
       )
     });
