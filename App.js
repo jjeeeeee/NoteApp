@@ -12,15 +12,16 @@ import { useSearchNotesQuery, useAddNoteMutation,
 
 
 function HomeScreen({ navigation }) {
-  const { data: searchData } = useSearchNotesQuery("");
+  const { data: searchData, refetch } = useSearchNotesQuery("");
   const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [clearNotes] = useClearNotesMutation();
 
-  const clearNotesWarning = () => {
-    // Clearing all notes in the app
-    clearNotes();
-    window.location.reload();
+  // Clearing the notes and re-rendering the page so the changes are seen
+  const clearAllNotes = async () => {
+    await clearNotes();
+    setFilteredData([]);
+    refetch();
   };
 
   // Displaying notes if their title or content includes query string
@@ -39,7 +40,7 @@ function HomeScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={clearNotesWarning}
+          onPress={clearAllNotes}
           style={tw`pr-4`}
         >
           <Text style={tw`text-red-500 text-base font-bold`}>Delete All Notes</Text>
