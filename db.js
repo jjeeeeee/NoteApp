@@ -74,7 +74,7 @@ export const dbApi = createApi({
     }),
     clearNotes: build.mutation({
       async queryFn() {
-        await AsyncStorage.setItem('notes', null); // Clearing the notes
+        await AsyncStorage.removeItem('notes'); // Removing the notes
         return { data: [] }
       },
       invalidatesTags: ['Notes'],
