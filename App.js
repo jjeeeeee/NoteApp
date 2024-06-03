@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
-import { TouchableOpacity, View, Text, TextInput, Alert } from 'react-native';
+import { TouchableOpacity, View, Text, TextInput, Alert, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import tw from 'twrnc';
@@ -24,6 +24,29 @@ function HomeScreen({ navigation }) {
     refetch();
   };
 
+  // Creating an alert to be displayed before clearing all of the notes
+  const clearNotesAlert = () => {
+    // Showing browser specific alert
+    if (Platform.OS === 'web') {
+      if (window.confirm('Are you sure you want to clear all of your notes?')) {
+        clearAllNotes();
+      } else {
+        console.log('Clear notes canceled');
+      }
+    } else {
+      Alert.alert(
+        'Clearing all notes', 
+        'Are you sure you want to clear all of your notes?', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Clear notes canceled'),
+            style: 'cancel',
+          },
+          {text: 'Yes', onPress: () => clearAllNotes()},
+        ]);
+    }
+  };
+
   // Displaying notes if their title or content includes query string
   useEffect(() => {
     if (searchData) {
@@ -40,7 +63,7 @@ function HomeScreen({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={clearAllNotes}
+          onPress={clearNotesAlert}
           style={tw`pr-4`}
         >
           <Text style={tw`text-white bg-red-500 p-1 rounded-xl text-base font-bold`}>Delete All Notes</Text>
